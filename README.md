@@ -25,7 +25,7 @@ MemoryVerse AI leverages a streamlined, low-latency stack designed for rapid dep
 
 ## ⚡ Quick Setup & Installation
 
-Follow these steps to run the complete single-file production platform locally inside **VS Code** in under 2 minutes:
+Follow these steps to run the complete production platform locally inside **VS Code** in under 2 minutes:
 
 ### 1. Initialize Your Environment
 
@@ -43,22 +43,38 @@ source venv/bin/activate
 
 ```
 
-### 2. Install Dependencies & Set Credentials
-
-Install the minimalist framework components and link your API credentials:
+### 2. Install Dependencies
 
 ```bash
 # Install required libraries
 pip install streamlit chromadb google-genai pypdf requests
 
-# Provide your Gemini API Token
-# On Windows (CMD): set GEMINI_API_KEY="your_key_here"
-# On Windows (PowerShell): $env:GEMINI_API_KEY="your_key_here"
-# On Mac/Linux: export GEMINI_API_KEY="your_key_here"
+```
+
+### 3. Add Your Gemini API Key
+
+You can pass your Google AI Studio Gemini API key to the application using **one** of the two methods below:
+
+#### Method A: Directly in the Code File (Easiest for Fast Testing)
+
+Open `app.py` in VS Code. Right at the top under the `# 1. SETUP & INITIALIZATION` header, paste your key directly into the variable:
+
+```python
+HARDCODED_KEY = "AIzaSyYourActualKeyHere"
 
 ```
 
-### 3. Launch the Server
+> ⚠️ **Security Warning:** Remember to reset this placeholder back to `HARDCODED_KEY = "your-key-here"` before making your repository public or pushing final commits to GitHub!
+
+#### Method B: Set via Terminal Environment Variables
+
+Alternatively, you can inject the token directly through your terminal context:
+
+* **Windows (CMD):** `set GEMINI_API_KEY="AIzaSyYourActualKeyHere"`
+* **Windows (PowerShell):** `$env:GEMINI_API_KEY="AIzaSyYourActualKeyHere"`
+* **Mac/Linux:** `export GEMINI_API_KEY="AIzaSyYourActualKeyHere"`
+
+### 4. Launch the Server
 
 ```bash
 streamlit run app.py
