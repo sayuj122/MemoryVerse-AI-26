@@ -8,19 +8,37 @@ import json
 from google import genai
 from google.genai import types
 
+import streamlit as st
+import os
+from google import genai
+
 # -----------------------------------------------------------------------------
 # 1. SETUP & INITIALIZATION
 # -----------------------------------------------------------------------------
 st.set_page_config(page_title="MemoryVerse AI '26", page_icon="🧠", layout="wide")
 
-# Initialize Gemini Client
-# Expects GEMINI_API_KEY to be set in environment variables
-try:
-    client = genai.Client()
-except Exception:
-    st.error("Please set the GEMINI_API_KEY environment variable.")
+# Check for API Key in environment variables
+api_key = os.environ.get("GEMINI_API_KEY")
+
+if not api_key:
+    st.error("🔑 **Missing Gemini API Key!**")
+    st.info("""
+    To run this project, please set your Gemini API key in your terminal before launching Streamlit:
+    
+    * **Windows (CMD):** `set GEMINI_API_KEY="your-key-here"`
+    * **Windows (PowerShell):** `$env:GEMINI_API_KEY="your-key-here"`
+    * **Mac/Linux:** `export GEMINI_API_KEY="your-key-here"`
+    
+    Then restart your app using `streamlit run app.py`.
+    """)
     st.stop()
 
+# Initialize Gemini Client using the environment variable
+try:
+    client = genai.Client(api_key=api_key)
+except Exception as e:
+    st.error(f"Failed to initialize Gemini Client: {e}")
+    st.stop()
 # Initialize ChromaDB (Persistent local storage)
 chroma_client = chromadb.PersistentClient(path="./memoryverse_db")
 
