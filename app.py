@@ -17,23 +17,20 @@ from google import genai
 # -----------------------------------------------------------------------------
 st.set_page_config(page_title="MemoryVerse AI '26", page_icon="🧠", layout="wide")
 
-# Check for API Key in environment variables
-api_key = os.environ.get("GEMINI_API_KEY")
+# 1. Paste your key inside these quotes for testing right now:
+HARDCODED_KEY = "PASTE_YOUR_GEMINI_API_KEY" 
 
-if not api_key:
+# 2. Automatically fallback to environment variables if the hardcoded string is empty
+api_key = HARDCODED_KEY if HARDCODED_KEY != "AIzaSy..." else os.environ.get("GEMINI_API_KEY")
+
+if not api_key or api_key in ["your-key-here", "AIzaSy..."]:
     st.error("🔑 **Missing Gemini API Key!**")
     st.info("""
-    To run this project, please set your Gemini API key in your terminal before launching Streamlit:
-    
-    * **Windows (CMD):** `set GEMINI_API_KEY="your-key-here"`
-    * **Windows (PowerShell):** `$env:GEMINI_API_KEY="your-key-here"`
-    * **Mac/Linux:** `export GEMINI_API_KEY="your-key-here"`
-    
-    Then restart your app using `streamlit run app.py`.
+    Please paste your actual API key directly into the code inside the `HARDCODED_KEY` variable at the top of `app.py`.
     """)
     st.stop()
 
-# Initialize Gemini Client using the environment variable
+# Initialize Gemini Client using the active key
 try:
     client = genai.Client(api_key=api_key)
 except Exception as e:
